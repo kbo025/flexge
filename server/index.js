@@ -4,11 +4,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import { Tabela } from './controllers/index.js'
+import AuthMiddleware from './middleware/AuthMiddleware.js';
+import { Contract, Company, Country, Auth } from './controllers/index.js'
 
 dotenv.config({ path: '../.env' })
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '0.0.0.0';
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
 const app = express();
 
 // configure the app to use bodyParser()
@@ -28,11 +29,23 @@ app.get(`/api/msj`, (req, res) => {
   res.json({ express: 'Hello From Express' });
 })
 
-// Tabela routes
-app.get(`/api/${Tabela.resourceName}`, Tabela.index );
-app.get(`/api/${Tabela.resourceName}/:key`, Tabela.view );
-app.post(`/api/${Tabela.resourceName}`, Tabela.create );
-app.put(`/api/${Tabela.resourceName}/:key`, Tabela.update );
-app.delete(`/api/${Tabela.resourceName}/:key`, Tabela.remove );
+// Auth routes
+app.post(`/api/auth/login`, Auth.login );
+app.get(`/api/auth/me`, AuthMiddleware, Auth.me );
+
+// Contract routes
+app.get(`/api/${Contract.resourceName}`, AuthMiddleware, Contract.index );
+app.get(`/api/${Contract.resourceName}/:id`, AuthMiddleware, Contract.view );
+app.post(`/api/${Contract.resourceName}`, AuthMiddleware, Contract.create );
+app.put(`/api/${Contract.resourceName}/:id`, AuthMiddleware, Contract.update );
+app.delete(`/api/${Contract.resourceName}/:id`, AuthMiddleware, Contract.remove );
+
+//Country routes
+app.get(`/api/${Country.resourceName}`, AuthMiddleware, Country.index );
+app.get(`/api/${Country.resourceName}/:code`, AuthMiddleware, Country.view );
+
+//company routes
+app.get(`/api/${Company.resourceName}`, AuthMiddleware, Company.index );
+app.get(`/api/${Company.resourceName}/:code`, AuthMiddleware, Company.view );
 
 app.listen(PORT, HOST);

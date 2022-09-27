@@ -1,11 +1,20 @@
 'use strict'
 
-import { Tabela } from '../models/index.js';
+import { Contract } from '../models/index.js';
+
+const ITEM_PER_PAGE = 20;
 
 const index = async (req, res) => {
     try {
         const page = req.query.page || 1;
-        const data = await Tabela.getAll(page);
+        const limit = ITEM_PER_PAGE;
+        const skip = (page * limit) - limit;
+        const filters = req.query.filters || {};
+        const data = await Contract.find(
+            filters,
+            ['id', 'documentNumber', 'socialReason', 'company'],
+            { skip, limit }
+        ).exec();
         res.json({ success: true, data });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message});
@@ -14,8 +23,8 @@ const index = async (req, res) => {
 
 const view = async (req, res) => {
     try {
-        const key = req.params.key;
-        const data = await Tabela.getOne(key);
+        const id = req.params.id;
+        const data = await Contract.findById(id).exec();
         res.json({ success: true, data });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });
@@ -25,7 +34,8 @@ const view = async (req, res) => {
 const create = async (req, res) => {
     try {
         const data = req.body;
-        const resp = await Tabela.create(data);
+        const contract = new Contract(data);
+        const resp = await contract.save();
         res.json({ success: true, data: resp });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });
@@ -34,9 +44,9 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        const key = req.params.key;
+        const id = req.params.id;
         const data = req.body;
-        const resp = await Tabela.update(key, data);
+        const resp = await Contract.findByIdAndUpdate(id, data, {returnDocument: 'after', runValidators: true });
         res.json({ success: true, data: resp });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });
@@ -45,16 +55,16 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
     try {
-        const key = req.params.key;
-        const resp = await Tabela.remove(key);
-        res.json({ success: true, data: resp });
+        const id = req.params.id;
+        const data = await Contract.findByIdAndDelete(id).exec();
+        res.json({ success: true, data });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });
     }
 }
 
 export default {
-    resourceName: 'tabela',
+    resourceName: 'contract',
     index,
     view,
     create,
