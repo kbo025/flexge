@@ -42,10 +42,11 @@ app.delete(`/api/${Contract.resourceName}/:id`, AuthMiddleware, Contract.remove 
 
 //Country routes
 app.get(`/api/${Country.resourceName}`, AuthMiddleware, Country.index );
-app.get(`/api/${Country.resourceName}/:code`, AuthMiddleware, Country.view );
+app.get(`/api/${Country.resourceName}/:acronym`, AuthMiddleware, Country.view );
 
 //company routes
 app.get(`/api/${Company.resourceName}`, AuthMiddleware, Company.index );
-app.get(`/api/${Company.resourceName}/:code`, AuthMiddleware, Company.view );
+app.get(`/api/${Company.resourceName}/:id`, AuthMiddleware, Company.view );
 
 app.listen(PORT, HOST);
+console.log(`Listen on port ${PORT}`);

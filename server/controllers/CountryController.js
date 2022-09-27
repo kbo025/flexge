@@ -13,8 +13,8 @@ const index = async (req, res) => {
 
 const view = async (req, res) => {
     try {
-        const acronim = req.params.acronim;
-        const data = await Country.findOne({ acronim }, ['id', 'name', 'acronym', 'states']).exec();
+        const acronym = req.params.acronym;
+        const data = await Country.findOne({ acronym }, ['id', 'name', 'acronym', 'states']).exec();
         res.json({ success: true, data });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });

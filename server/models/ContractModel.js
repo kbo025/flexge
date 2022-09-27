@@ -1,6 +1,6 @@
 'use strict';
 
-import db from '../config/db';
+import db from '../config/db.js';
 
 const ContractShema = new db.Schema({
     documentNumber: {
@@ -30,7 +30,7 @@ const ContractShema = new db.Schema({
         lowercase: true,
         validate: {
             validator: function(v) {
-                return /\d{3}-\d{3}-\d{4}/.test(v);
+                return /\d{0,2} \d{9}/.test(v);
             },
             message: props => `${props.value} is not a valid phone number!`
         },
