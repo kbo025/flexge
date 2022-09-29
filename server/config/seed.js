@@ -1,7 +1,7 @@
 'use strict'
 
 import db from './db.js';
-import { User, Company, Country } from '../models/index.js';
+import { User, Company, Country, Product } from '../models/index.js';
 import bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
 
@@ -16,9 +16,25 @@ const usersData = [
 ];
 
 const companyData = [
-    {name: 'Company 1', products: [{description: 'Product 1.1'}, {description: 'Product 2.1'}, {description: 'Product 3.1'}]},
-    {name: 'Company 2', products: [{description: 'Product 1.2'}, {description: 'Product 2.2'}, {description: 'Product 3.2'}]},
-    {name: 'Company 3', products: [{description: 'Product 1.3'}, {description: 'Product 2.3'}, {description: 'Product 3.3'}]},
+    {name: 'Bruno e Milena Vidros ME'},
+    {name: 'Ruan e Carlos Eduardo Joalheria Ltda'},
+    {name: 'Sebastião e Jaqueline Lavanderia ME'},
+    {name: 'Kamilly e Cecília Pães e Doces ME'},
+    {name: 'Sônia e Gustavo Contábil ME'},
+    {name: 'Larissa e Isadora Telas Ltda'},
+    {name: 'Bryan e Andreia Buffet ME'},
+    {name: 'Manoel e Bruna Buffet Ltda'},
+    {name: 'Sônia e Giovana Fotografias Ltda'},
+    {name: 'Antônia e Joaquim Pães e Doces ME'},
+];
+
+const productData = [
+    {description: 'Licenças por pacote'},
+    {description: 'Licenças Extras'},
+    {description: 'Placement test comercial'},
+    {description: 'Assesoria de implantação'},
+    {description: 'White label (Full, academic, academic + parents)'},
+    {description: 'Taxa de atualização do sistema (white label)'},
 ];
 
 const countriesData = [
@@ -96,10 +112,12 @@ const users = await Promise.all(
 
 const companies = companyData.map(company => new Company(company));
 const countries = countriesData.map(country => new Country(country));
+const products = productData.map(product => new Product(product));
 
 await User.deleteMany({}, {}); 
 await Company.deleteMany({}, {});
 await Country.deleteMany({}, {});
+await Product.deleteMany({}, {});
 
 await Promise.all( 
     users.map(async (user) => {
@@ -116,6 +134,12 @@ await Promise.all(
 await Promise.all( 
     countries.map(async (country) => {
         return await country.save();
+    })
+);
+
+await Promise.all( 
+    products.map(async (product) => {
+        return await product.save();
     })
 );
 
