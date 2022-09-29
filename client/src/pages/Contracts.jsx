@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AppContext from '../context/AppContext';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import MainLayout from '@components/MainLayout';
-import { redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
     Card,
     Divider,
@@ -27,8 +27,8 @@ export default function Contracts() {
 
     const { state } = useContext(AppContext);
 
-    if (!state.use.token) {
-        return redirect("/");
+    if (!state.user.token) {
+        return Redirect("/");
     }
 
     const onFinish = (values) => {

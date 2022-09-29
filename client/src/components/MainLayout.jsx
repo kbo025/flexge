@@ -3,7 +3,7 @@ import AppContext from '../context/AppContext';
 import { Layout, Row, Col, Card, Menu, Dropdown, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 const { Content, Header, Footer } = Layout;
-import { redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const MainLayout = ({children}) => {
 
@@ -17,7 +17,7 @@ const MainLayout = ({children}) => {
                     label: (<a onClick={(e) => {
                         e.preventDefault();
                         logout();
-                        redirect("/");
+                        Redirect("/");
                     }} href="">Logout</a>),
                 },
             ]}/>

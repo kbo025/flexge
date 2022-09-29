@@ -5,7 +5,7 @@ import MainLayout from '@components/MainLayout';
 import ProductList from '@components/ProductList';
 import ContractForm from '@components/ContratcForm';
 import ProductForm from '@components/ProductForm';
-import { redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { 
     Col,
     Row,
@@ -18,8 +18,8 @@ export default function Contract() {
 
     const { state } = useContext(AppContext);
 
-    if (!state.use.token) {
-        return redirect("/");
+    if (!state.user.token) {
+        return Redirect("/");
     }
 
     return (

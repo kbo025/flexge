@@ -3,15 +3,15 @@ import AppContext from '../context/AppContext';
 import axios from "axios";
 import LoginLayout from '@components/LoginLayout';
 import { Button, Form, Input, Divider, message } from 'antd';
-import { redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const URL = 'http://localhost:3000/api/auth/login';
 
 export default function Login() {
     const { state, login } = useContext(AppContext);
-
-    if (state.use.token) {
-        return redirect("/contracts");
+    console.log(state)
+    if (state.user.token) {
+        return Redirect("/contracts");
     }
 
     const onFinish = async (values) => {
@@ -19,7 +19,7 @@ export default function Login() {
             const { data } = await axios.post(URL, values);
             console.log(data);
             login(data);
-            return redirect("/contracts");
+            return Redirect("/contracts");
         } catch (e) {
             let msj = 'Unexpected error';
             if (e.response.status == 401) {
