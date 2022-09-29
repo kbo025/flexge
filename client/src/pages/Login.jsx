@@ -1,15 +1,21 @@
-import React from 'react';
-import { 
-    Button,
-    Form,
-    Input,
-    Divider
-} from 'antd';
-import LoginLayout from '../components/LoginLayout';
+import { useEffect, useState } from "react";
+import LoginLayout from '@components/LoginLayout';
+import useLogin from '../hooks/useLogin';
+import { Button, Form, Input, Divider } from 'antd';
 
-export default function Home() {
+export default function Login() {
+
+    const [user, setUser] = useState({});
+
+	useEffect(async () => {
+		const response = await axios.post(URL, data);
+		setUser(response.data);
+	}, []);
+
     const onFinish = (values) => {
-        console.log('Success:', values);
+        console.log(values);
+        const user = useLogin(values);
+        console.log(user);
     };
     
     const onFinishFailed = (errorInfo) => {
@@ -21,12 +27,12 @@ export default function Home() {
             <h2 style={{ textAlign: 'center' }}>Login</h2>
             <Divider></Divider>
             <Form
-            name="login"
-            labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off">
+                name="login"
+                labelCol={{ span: 24 }}
+                wrapperCol={{ span: 24 }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off">
                 <Form.Item
                     label="Email"
                     name="email"

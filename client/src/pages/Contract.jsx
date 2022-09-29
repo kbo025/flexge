@@ -1,9 +1,9 @@
 import React from 'react';
-import MainLayout from '../components/MainLayout';
 import { LeftOutlined, PlusOutlined } from '@ant-design/icons';
-import ProductList from '../components/ProductList';
-import ContractForm from '../components/ContratcForm';
-import ProductForm from '../components/ProductForm';
+import MainLayout from '@components/MainLayout';
+import ProductList from '@components/ProductList';
+import ContractForm from '@components/ContratcForm';
+import ProductForm from '@components/ProductForm';
 import { 
     Col,
     Row,
@@ -12,7 +12,7 @@ import {
     Divider
 } from 'antd';
 
-export default function contract() {
+export default function Contract() {
 
     return (
         <MainLayout>

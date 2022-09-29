@@ -1,6 +1,6 @@
 import React from 'react';
-import MainLayout from '../components/MainLayout';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import MainLayout from '@components/MainLayout';
 import {
     Card,
     Divider,
@@ -11,7 +11,7 @@ import {
     Input,
     Select
 } from 'antd';
-import ContractList from '../components/ContractList';
+import ContractList from '@components/ContractList';
 
 const { Option } = Select;
 
@@ -21,7 +21,7 @@ const CONTRACTS = [
     {documentNumber: 'documentNumber 3', socialReason: 'socialReason 3', company: 'company 3'},
 ];
 
-export default function contracts() {
+export default function Contracts() {
     
     const onFinish = (values) => {
         console.log('Success:', values);

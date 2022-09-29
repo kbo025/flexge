@@ -1,11 +1,10 @@
 import React from 'react';
-import { Card } from 'antd';
-import MainLayout from '../components/MainLayout';
+import MainLayout from '@components/MainLayout';
 
 export default function Teste() {
     return (
         <MainLayout>
-            col-4
+            <h3>Hello Word</h3>
         </MainLayout>
     );
 }
