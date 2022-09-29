@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from "react";
+import AppContext from '../context/AppContext';
 import { LeftOutlined, PlusOutlined } from '@ant-design/icons';
 import MainLayout from '@components/MainLayout';
 import ProductList from '@components/ProductList';
 import ContractForm from '@components/ContratcForm';
 import ProductForm from '@components/ProductForm';
+import { redirect } from "react-router-dom";
 import { 
     Col,
     Row,
@@ -13,6 +15,12 @@ import {
 } from 'antd';
 
 export default function Contract() {
+
+    const { state } = useContext(AppContext);
+
+    if (!state.use.token) {
+        return redirect("/");
+    }
 
     return (
         <MainLayout>

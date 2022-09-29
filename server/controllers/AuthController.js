@@ -23,7 +23,7 @@ const login = async (req, res) => {
         const { id, name } = user;
         let token = jwt.sign({ id, name, email }, secret,  { expiresIn: '4h' });
 
-        res.status(200).json({ success: true, token })
+        res.status(200).json({ success: true, data: { id, name, email, token} })
     } catch (e) {
         if (/\d/.test(e.message)) {
             res.status(e.message).json({ success: false, message: e.message});

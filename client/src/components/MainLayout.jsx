@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useContext } from "react";
+import AppContext from '../context/AppContext';
 import { Layout, Row, Col, Card, Menu, Dropdown, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 const { Content, Header, Footer } = Layout;
+import { redirect } from "react-router-dom";
 
 const MainLayout = ({children}) => {
+
+    const { logout } = useContext(AppContext);
 
     const menu = (
         <Menu
             items={[
                 {
                     key: '0',
-                    label: (<a onClick={(e) => e.preventDefault()} href="">Logout</a>),
+                    label: (<a onClick={(e) => {
+                        e.preventDefault();
+                        logout();
+                        redirect("/");
+                    }} href="">Logout</a>),
                 },
             ]}/>
     );

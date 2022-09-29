@@ -1,21 +1,32 @@
-import { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import AppContext from '../context/AppContext';
+import axios from "axios";
 import LoginLayout from '@components/LoginLayout';
-import useLogin from '../hooks/useLogin';
-import { Button, Form, Input, Divider } from 'antd';
+import { Button, Form, Input, Divider, message } from 'antd';
+import { redirect } from "react-router-dom";
+
+const URL = 'http://localhost:3000/api/auth/login';
 
 export default function Login() {
+    const { state, login } = useContext(AppContext);
 
-    const [user, setUser] = useState({});
+    if (state.use.token) {
+        return redirect("/contracts");
+    }
 
-	useEffect(async () => {
-		const response = await axios.post(URL, data);
-		setUser(response.data);
-	}, []);
-
-    const onFinish = (values) => {
-        console.log(values);
-        const user = useLogin(values);
-        console.log(user);
+    const onFinish = async (values) => {
+        try {
+            const { data } = await axios.post(URL, values);
+            console.log(data);
+            login(data);
+            return redirect("/contracts");
+        } catch (e) {
+            let msj = 'Unexpected error';
+            if (e.response.status == 401) {
+                msj = 'Incorrect Credentials';
+            }
+            message.error(msj, 5)
+        }
     };
     
     const onFinishFailed = (errorInfo) => {
