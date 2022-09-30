@@ -17,7 +17,7 @@ const MainLayout = ({children}) => {
                     label: (<a onClick={(e) => {
                         e.preventDefault();
                         logout();
-                        Redirect("/");
+                        return <Redirect to="/" />;
                     }} href="">Logout</a>),
                 },
             ]}/>

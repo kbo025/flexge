@@ -9,17 +9,16 @@ const URL = 'http://localhost:3000/api/auth/login';
 
 export default function Login() {
     const { state, login } = useContext(AppContext);
-    console.log(state)
+
     if (state.user.token) {
-        return Redirect("/contracts");
+        return <Redirect to="/contracts" />;
     }
 
     const onFinish = async (values) => {
         try {
             const { data } = await axios.post(URL, values);
-            console.log(data);
-            login(data);
-            return Redirect("/contracts");
+            login(data.data);
+            return <Redirect to="/contracts" />;
         } catch (e) {
             let msj = 'Unexpected error';
             if (e.response.status == 401) {

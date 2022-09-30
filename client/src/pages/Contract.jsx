@@ -19,7 +19,7 @@ export default function Contract() {
     const { state } = useContext(AppContext);
 
     if (!state.user.token) {
-        return Redirect("/");
+        return <Redirect to="/" />;
     }
 
     return (

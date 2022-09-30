@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AppContext from '../context/AppContext';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import MainLayout from '@components/MainLayout';
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import {
     Card,
     Divider,
@@ -18,9 +18,9 @@ import ContractList from '@components/ContractList';
 const { Option } = Select;
 
 const CONTRACTS = [
-    {documentNumber: 'documentNumber 1', socialReason: 'socialReason 1', company: 'company 1'},
-    {documentNumber: 'documentNumber 2', socialReason: 'socialReason 2', company: 'company 2'},
-    {documentNumber: 'documentNumber 3', socialReason: 'socialReason 3', company: 'company 3'},
+    {key: 1, documentNumber: 'documentNumber 1', socialReason: 'socialReason 1', company: 'company 1'},
+    {key: 2, documentNumber: 'documentNumber 2', socialReason: 'socialReason 2', company: 'company 2'},
+    {key: 3, documentNumber: 'documentNumber 3', socialReason: 'socialReason 3', company: 'company 3'},
 ];
 
 export default function Contracts() {
@@ -28,7 +28,7 @@ export default function Contracts() {
     const { state } = useContext(AppContext);
 
     if (!state.user.token) {
-        return Redirect("/");
+        return <Redirect to="/" />;
     }
 
     const onFinish = (values) => {
@@ -42,7 +42,9 @@ export default function Contracts() {
     return (
         <MainLayout>
             <Row justify="end">
-                <Button icon={<PlusOutlined />} type="primary" size="small">New Contract</Button>
+                <NavLink to="/contract">
+                    <Button icon={<PlusOutlined />} type="primary" size="small">New Contract</Button>
+                </NavLink>
             </Row>
             <Divider orientation="left"><h2>CONTRACTS</h2></Divider>
             <Form
