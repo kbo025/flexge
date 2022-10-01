@@ -4,7 +4,7 @@ import { Country } from '../models/index.js';
 
 const index = async (req, res) => {
     try {
-        const data = await Country.find({}, ['id', 'name', 'acronym']).exec();
+        const data = await Country.find({}, ['id', 'name', 'acronym', 'states']).exec();
         res.json({ success: true, data });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message});

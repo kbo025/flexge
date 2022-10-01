@@ -27,7 +27,7 @@ export default async (req, res, next) => {
         if (/\d/.test(e.message)) {
             res.status(e.message).json({ success: false, message: e.message});
         } else {
-            res.status(500).json({ success: false });
+            res.status(500).json({ success: false, message: e.message });
         }
     }
 };

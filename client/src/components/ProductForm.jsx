@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import AppContext from '../context/AppContext';
+import { getProducts } from '../redux/actions/products';
 import { PlusOutlined } from '@ant-design/icons';
 import { 
     Col,
@@ -13,6 +16,21 @@ import {
 const { Option } = Select;
 
 const ProductForm = ({ }) => {
+
+    const { state } = useContext(AppContext);
+
+    const dispatch = useDispatch(state.user.token);
+    const products = useSelector(state => state.products.products);
+    const loading = useSelector(state => state.products.loading);
+    const error = useSelector(state => state.products.error);
+
+    if (error) {
+        message.error(error, 5);
+    }
+
+    useEffect(() => {
+        dispatch(getProducts(state.user.token));
+    }, []);
 
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -37,9 +55,7 @@ const ProductForm = ({ }) => {
                         { required: true, message: 'Required' }
                     ]}>
                     <Select allowClear>
-                        <Option value="1">company 1</Option>
-                        <Option value="2">company 2</Option>
-                        <Option value="3">company 3</Option>
+                        {loading ? '' : products.map( e => <Option value={e._id}>{e.description}</Option>)}
                     </Select>
                 </Form.Item>
             </Col>

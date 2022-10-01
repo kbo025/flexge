@@ -41,7 +41,7 @@ app.get(`/api/${Country.resourceName}/:acronym`, AuthMiddleware, Country.view );
 app.get(`/api/${Company.resourceName}`, AuthMiddleware, Company.index );
 
 //Products routes
-app.get(`/api/${Product.resourceName}/:id`, AuthMiddleware, Product.index );
+app.get(`/api/${Product.resourceName}`, AuthMiddleware, Product.index );
 
 // Contract routes
 app.get(`/api/${Contract.resourceName}`, AuthMiddleware, Contract.index );

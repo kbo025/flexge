@@ -1,4 +1,8 @@
-import React from 'react';
+import React,  { useEffect, useContext } from 'react';
+import AppContext from '../context/AppContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCountries } from '../redux/actions/countries';
+import { getCompanies } from '../redux/actions/companies';
 import { UploadOutlined } from '@ant-design/icons';
 import { 
     Col,
@@ -14,6 +18,29 @@ import {
 const { Option } = Select;
 
 const ContractForm = ({  }) => {
+
+    const { state } = useContext(AppContext);
+
+    const dispatch = useDispatch();
+    const countries = useSelector(state => state.countries.countries);
+    const companies = useSelector(state => state.companies.companies);
+    const loadingCountries = useSelector(state => state.countries.loading);
+    const loadingCompanies = useSelector(state => state.companies.loading);
+    const errorCompanies = useSelector(state => state.companies.error);
+    const errorCountries = useSelector(state => state.countries.error);
+
+    if (errorCompanies) {
+        message.error(errorCompanies, 5);
+    }
+
+    if (errorCountries) {
+        message.error(errorCountries, 5);
+    }
+
+    useEffect(() => {
+        dispatch(getCompanies(state.user.token));
+        dispatch(getCountries(state.user.token));
+    }, []);
 
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -39,23 +66,19 @@ const ContractForm = ({  }) => {
                         { required: true, message: 'Required' }
                     ]}>
                     <Select allowClear>
-                        <Option value="1">company 1</Option>
-                        <Option value="2">company 2</Option>
-                        <Option value="3">company 3</Option>
+                        {loadingCountries ? '' : countries.map( e => <Option value={e._id}>{e.name}</Option>)}
                     </Select>
                 </Form.Item>
             </Col>
             <Col span={8} >
                 <Form.Item
                     label="State"
-                    name="country"
+                    name="state"
                     rules={[
                         { required: true, message: 'Required' }
                     ]}>
                     <Select allowClear>
-                        <Option value="1">company 1</Option>
-                        <Option value="2">company 2</Option>
-                        <Option value="3">company 3</Option>
+                        {loadingCompanies ? '' : companies.map( e => <Option value={e._id}>{e.name}</Option>)}
                     </Select>
                 </Form.Item>
             </Col>

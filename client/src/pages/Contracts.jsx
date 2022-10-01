@@ -1,8 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import AppContext from '../context/AppContext';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import MainLayout from '@components/MainLayout';
 import { Redirect, NavLink } from "react-router-dom";
+import { getCompanies } from '../redux/actions/companies';
 import {
     Card,
     Divider,
@@ -31,6 +33,18 @@ export default function Contracts() {
         return <Redirect to="/" />;
     }
 
+    const dispatch = useDispatch();
+    const companies = useSelector(state => state.companies.companies);
+    const loading = useSelector(state => state.companies.loading);
+    const error = useSelector(state => state.companies.error);
+    if (error) {
+        message.error(error, 5);
+    }
+
+    useEffect(() => {
+        dispatch(getCompanies(state.user.token));
+    }, []);
+    
     const onFinish = (values) => {
         console.log('Success:', values);
     };
@@ -73,9 +87,7 @@ export default function Contracts() {
                             label="Company"
                             name="company">
                             <Select allowClear>
-                                <Option value="1">company 1</Option>
-                                <Option value="2">company 2</Option>
-                                <Option value="3">company 3</Option>
+                                {loading ? '' : companies.map( e => <Option value={e._id}>{e.name}</Option>)}
                             </Select>
                         </Form.Item>
                     </Col>
